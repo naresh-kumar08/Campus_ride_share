@@ -1,7 +1,7 @@
 # Campus_ride_share
 I am a campus ride share webside
 
-<h2>Contact us</h2>
+<h2>Contact us ✉ 💬</h2>
 Developed by: Naresh kumar <br>
 Work: Backend with MERN Stack Development, Database with MongoDB <br>
 Contact_Info: <a href="mailto:seervinaresh620@gmail.com">Email:seervinaresh620@gmail.com</a>
