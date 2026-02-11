@@ -1,26 +1,7 @@
 # Campus_ride_share
 I am a campus ride share webside
 
-Here is your Campus Ride Share content in pure HTML format using only:
 
-Headings (<h1>–<h6>)
-
-Paragraphs (<p>)
-
-Bold (<b>)
-
-Italic (<i>)
-
-Underline (<u>)
-
-No <div> or <section> used.
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Campus Ride Share</title>
-</head>
-<body>
 
 <h1><u>Campus Ride Share 🚗🎓</u></h1>
 
