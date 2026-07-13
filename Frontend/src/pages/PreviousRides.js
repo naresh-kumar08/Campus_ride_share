@@ -27,7 +27,7 @@ const PreviousRides = () => {
     setLoading(true);
     setError("");
     try {
-      const { data } = await api.get("/bookings");
+      const { data } = await api.get("/api/bookings");
       const visible = (data.data || []).filter(
         (booking) => booking.status !== "cancelled"
       );
@@ -48,7 +48,7 @@ const PreviousRides = () => {
 
   const markCompleted = async (bookingId) => {
     try {
-      await api.patch(`/bookings/${bookingId}/complete`);
+      await api.patch(`/api/bookings/${bookingId}/complete`);
       const refreshed = await fetchBookings();
       const updated = refreshed.find((booking) => booking._id === bookingId);
       if (updated?.canRate && !updated.hasRated) {
@@ -79,7 +79,7 @@ const PreviousRides = () => {
     setComplaintSubmitting((prev) => ({ ...prev, [bookingId]: true }));
     setComplaintStatus((prev) => ({ ...prev, [bookingId]: "" }));
     try {
-      await api.post("/complaints/add", {
+      await api.post("/api/complaints/add", {
         rideId: booking.rideId?._id || booking.rideId,
         message,
       });
@@ -110,7 +110,7 @@ const PreviousRides = () => {
     setRatingSubmitting(true);
     setRatingError("");
     try {
-      await api.post("/rating/add", {
+      await api.post("/api/rating/add", {
         rideId: ratingTarget.rideId?._id || ratingTarget.rideId,
         toUserId: ratingTarget.counterparty?._id,
         stars,
@@ -131,7 +131,7 @@ const PreviousRides = () => {
     }
     setConfirmingBooking(bookingId);
     try {
-      await api.patch(`/bookings/${bookingId}/rider-confirm`);
+      await api.patch(`/api/bookings/${bookingId}/rider-confirm`);
       alert("Booking confirmed successfully!");
       await fetchBookings();
     } catch (err) {
@@ -147,7 +147,7 @@ const PreviousRides = () => {
     }
     setRejectingBooking(bookingId);
     try {
-      await api.patch(`/bookings/${bookingId}/rider-reject`);
+      await api.patch(`/api/bookings/${bookingId}/rider-reject`);
       alert("Booking request rejected");
       await fetchBookings();
     } catch (err) {
