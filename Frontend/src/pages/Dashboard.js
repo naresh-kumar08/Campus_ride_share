@@ -1,40 +1,3 @@
-// import React from "react";
-// import useRides from "../hooks/useRides";
-// import RideCard from "../components/RideCard";
-// import AddRideModal from "../components/AddRideModal";
-// import useModal from "../hooks/useModal";
-// import { useAuth } from "../context/AuthContext";
-
-// const Dashboard = () => {
-//   const { rides, refresh } = useRides();
-//   const modal = useModal();
-//   const { user } = useAuth();
-
-//   return (
-//     <main className="container grid" style={{ gap: "1.5rem" }}>
-//       <div className="card" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-//         <div>
-//           <h2>Welcome back, {user?.name}</h2>
-//           <p>Keep adding rides to help your campus commute safer.</p>
-//         </div>
-//         <button className="btn" onClick={modal.open}>
-//           Add Ride
-//         </button>
-//       </div>
-//       <section className="grid">
-//         {rides.map((ride) => (
-//           <RideCard key={ride._id} ride={ride} />
-//         ))}
-//       </section>
-//       <AddRideModal isOpen={modal.isOpen} onClose={modal.close} onSuccess={refresh} />
-//     </main>
-//   );
-// };
-
-// export default Dashboard;
-
-
-
 import React, { useState, useEffect } from "react";
 import useRides from "../hooks/useRides";
 import RideCard from "../components/RideCard";
@@ -65,7 +28,7 @@ const Dashboard = () => {
       const fetchAllRides = async () => {
         setLoadingAllRides(true);
         try {
-          const { data } = await api.get("/rides/all");
+          const { data } = await api.get("/api/rides/all");
           setAllRides(data.data || []);
         } catch {
           setAllRides([]);
@@ -100,7 +63,7 @@ const Dashboard = () => {
       refresh();
 
       if (isRider) {
-        const { data } = await api.get("/rides/all");
+        const { data } = await api.get("/api/rides/all");
         setAllRides(data.data);
       }
 
@@ -125,7 +88,7 @@ const Dashboard = () => {
       await api.delete(`/rides/${ride._id}`);
 
       if (isRider) {
-        const { data } = await api.get("/rides/all");
+        const { data } = await api.get("/api/rides/all");
         setAllRides(data.data || []);
       } else {
         refresh();
@@ -209,7 +172,7 @@ const Dashboard = () => {
           onClose={modal.close}
           onSuccess={() => {
             refresh();
-            api.get("/rides/all").then(({ data }) => setAllRides(data.data));
+            api.get("/api/rides/all").then(({ data }) => setAllRides(data.data));
           }}
         />
       )}
