@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (payload) => {
     setLoading(true);
     try {
-      const { data } = await api.post("/auth/login", payload);
+      const { data } = await api.post("/api/auth/login", payload);
       setUser(data.data);
       setToken(data.token);
       return data.data;
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (payload) => {
     setLoading(true);
     try {
-      await api.post("/auth/register", payload);
+      await api.post("/api/auth/register", payload);
       return { success: true };
     } finally {
       setLoading(false);
