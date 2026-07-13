@@ -8,7 +8,7 @@ const ComplaintForm = ({ rideId }) => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/complaints/add", { rideId, message });
+      await api.post("/api/complaints/add", { rideId, message });
       setMessage("");
       setStatus("Complaint submitted. We will reach out soon.");
     } catch (err) {
