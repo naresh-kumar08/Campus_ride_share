@@ -162,7 +162,7 @@ const Register = () => {
   const verifyCode = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/auth/verify-email", { email: form.email, code });
+      await api.post("/api/auth/verify-email", { email: form.email, code });
       alert("Email verified. You can now login.");
       navigate("/login");
     } catch (err) {
