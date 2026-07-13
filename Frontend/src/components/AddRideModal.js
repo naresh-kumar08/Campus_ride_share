@@ -28,7 +28,7 @@ const AddRideModal = ({ isOpen, onClose, onSuccess }) => {
     setSubmitting(true);
     setError("");
     try {
-      await api.post("/rides", { ...form, distance: Number(form.distance) });
+      await api.post("/api/rides", { ...form, distance: Number(form.distance) });
       setForm(initialState);
       onSuccess?.();
       onClose();
