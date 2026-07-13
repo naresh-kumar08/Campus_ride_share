@@ -9,7 +9,7 @@ const Profile = () => {
   useEffect(() => {
     const load = async () => {
       if (!user?.id) return;
-      const { data } = await api.get(`/rating/${user.id}`);
+      const { data } = await api.get(`/api/rating/${user.id}`);
       setRatings(data.data);
     };
     load();
