@@ -17,10 +17,10 @@ const AdminDashboard = () => {
     setError("");
     try {
       const [statsRes, usersRes, ridesRes, complaintsRes] = await Promise.all([
-        api.get("/admin/stats"),
-        api.get("/admin/users"),
-        api.get("/admin/rides"),
-        api.get("/admin/complaints"),
+        api.get("/api/admin/stats"),
+        api.get("/api/admin/users"),
+        api.get("/api/admin/rides"),
+        api.get("/api/admin/complaints"),
       ]);
       setStats(statsRes.data.data);
       setUsers(usersRes.data.data);
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
     const nextStatus = !user.isActive;
     setBusyUser(user._id);
     try {
-      const { data } = await api.patch(`/admin/users/${user._id}/status`, { isActive: nextStatus });
+      const { data } = await api.patch(`/api/admin/users/${user._id}/status`, { isActive: nextStatus });
       setUsers((prev) => prev.map((item) => (item._id === user._id ? data.data : item)));
     } catch (err) {
       alert(err.response?.data?.message || "Unable to update user");
@@ -71,7 +71,7 @@ const AdminDashboard = () => {
     if (!window.confirm(`Delete ${user.name}'s account? This cannot be undone.`)) return;
     setBusyUser(user._id);
     try {
-      await api.delete(`/admin/users/${user._id}`);
+      await api.delete(`/api/admin/users/${user._id}`);
       setUsers((prev) => prev.filter((item) => item._id !== user._id));
     } catch (err) {
       alert(err.response?.data?.message || "Unable to delete user");
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
     if (!window.confirm("Delete this ride and its bookings?")) return;
     setBusyRide(ride._id);
     try {
-      await api.delete(`/admin/rides/${ride._id}`);
+      await api.delete(`/api/admin/rides/${ride._id}`);
       setRides((prev) => prev.filter((item) => item._id !== ride._id));
     } catch (err) {
       alert(err.response?.data?.message || "Unable to delete ride");
