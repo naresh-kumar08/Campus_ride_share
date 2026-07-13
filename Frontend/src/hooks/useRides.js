@@ -11,7 +11,7 @@ export default function useRides(initialFilters = {}) {
       setLoading(true);
       try {
         const activeFilters = overrideFilters ?? filters;
-        const { data } = await api.get("/rides", {
+        const { data } = await api.get("/api/rides", {
           params: activeFilters,
         });
         setRides(data.data);
