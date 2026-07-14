@@ -22,7 +22,7 @@ const ResetPassword = () => {
     }
     setSubmitting(true);
     try {
-      await api.post("/auth/forgot-password", { email: form.email });
+      await api.post("/api/auth/forgot-password", { email: form.email });
       setStatus("Code sent to your email. Check your inbox or spam.");
       setCodeSent(true);
     } catch (err) {
@@ -49,7 +49,7 @@ const ResetPassword = () => {
     }
     setSubmitting(true);
     try {
-      await api.post("/auth/reset-password", {
+      await api.post("/api/auth/reset-password", {
         email: form.email,
         code: form.code,
         password: form.password,
