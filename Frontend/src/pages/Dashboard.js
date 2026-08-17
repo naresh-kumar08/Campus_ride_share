@@ -47,7 +47,7 @@ const Dashboard = () => {
     setBooking(true);
     try {
       // 1. Confirm booking
-      await api.post("/bookings/confirm", {
+      await api.post("/api/bookings/confirm", {
         rideId: selectedRide._id,
         bookingMessage: bookingMessage?.trim() || undefined,
       });
