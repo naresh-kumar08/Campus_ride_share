@@ -47,10 +47,15 @@ exports.register = asyncHandler(async (req, res) => {
     emailVerificationTokenExpires: Date.now() + 15 * 60 * 1000,
   });
 
-  await sendEmail({
-    to: email,
-    ...verificationTemplate(name, verificationCode),
-  });
+  try {
+    await sendEmail({
+      to: email,
+      ...verificationTemplate(name, verificationCode),
+    });
+  } catch (error) {
+    await User.findByIdAndDelete(user._id);
+    throw createError(500, "Failed to send OTP email. Please check server email credentials.");
+  }
 
   res.status(201).json({
     success: true,
