@@ -3,38 +3,151 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true, lowercase: true },
-    phone: { type: String, required: true },
-    gender: { type: String, enum: ["male", "female", "other"], required: true },
-    password: { type: String, required: true },
-    rating: { type: Number, default: 5 },
-    ridesCompleted: { type: Number, default: 0 },
-    role: { type: String, enum: ["student", "rider",], default: "student" },
-    // role: { type: String, enum: ["student", "rider", "admin"], default: "student" },
-    isVerified: { type: Boolean, default: false },
-    isActive: { type: Boolean, default: true },
-    emailVerificationToken: String,
-    emailVerificationTokenExpires: Date,
-    resetPasswordToken: String,
-    resetPasswordTokenExpires: Date,
+    // User Name
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    // User Email
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+
+    // Phone Number
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    // Gender
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      required: true,
+    },
+
+    // Password
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+
+    // User Rating
+    rating: {
+      type: Number,
+      default: 5,
+    },
+
+    // Completed Rides
+    ridesCompleted: {
+      type: Number,
+      default: 0,
+    },
+
+    // User Role
+    role: {
+      type: String,
+      enum: ["student", "rider"],
+      default: "student",
+    },
+
+    // Email Verification Status
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    // Account Status
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
+    // OTP for Email Verification
+    emailVerificationToken: {
+      type: String,
+      default: null,
+    },
+
+    // OTP Expiry Time
+    emailVerificationTokenExpires: {
+      type: Date,
+      default: null,
+    },
+
+    // Password Reset Token
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+
+    // Password Reset Token Expiry
+    resetPasswordTokenExpires: {
+      type: Date,
+      default: null,
+    },
   },
-  { timestamps: true }
+
+  {
+    timestamps: true,
+  }
 );
 
-userSchema.pre("save", async function hashPassword(next) {
-  if (!this.isModified("password")) {
-    return next();
+// ==========================================
+// HASH PASSWORD BEFORE SAVING USER
+// ==========================================
+
+userSchema.pre("save", async function (next) {
+  try {
+    // Password change nahi hua hai
+    // to dobara hash mat karo
+    if (!this.isModified("password")) {
+      return next();
+    }
+
+    // Generate Salt
+    const salt = await bcrypt.genSalt(10);
+
+    // Hash Password
+    this.password = await bcrypt.hash(
+      this.password,
+      salt
+    );
+
+    next();
+
+  } catch (error) {
+    next(error);
   }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 
-userSchema.methods.comparePassword = async function comparePassword(candidate) {
-  return bcrypt.compare(candidate, this.password);
-};
+// ==========================================
+// COMPARE PASSWORD METHOD
+// ==========================================
 
-module.exports = mongoose.model("User", userSchema);
+userSchema.methods.comparePassword =
+  async function (candidatePassword) {
+    return await bcrypt.compare(
+      candidatePassword,
+      this.password
+    );
+  };
 
+// ==========================================
+// CREATE USER MODEL
+// ==========================================
 
+const User = mongoose.model(
+  "User",
+  userSchema
+);
+
+module.exports = User;
