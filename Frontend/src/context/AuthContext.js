@@ -136,7 +136,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     loadUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ==========================================
