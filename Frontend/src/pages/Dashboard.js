@@ -11,7 +11,7 @@ import { useAuth } from "../context/AuthContext";
 const Dashboard = () => {
   const { rides, refresh, setFilters } = useRides();
   const modal = useModal();
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   const [selectedRide, setSelectedRide] = useState(null);
   const [booking, setBooking] = useState(false);
@@ -85,7 +85,7 @@ const Dashboard = () => {
 
     setDeletingRideId(ride._id);
     try {
-      await api.delete(`/rides/${ride._id}`);
+      await api.delete(`/api/rides/${ride._id}`);
 
       if (isRider) {
         const { data } = await api.get("/api/rides/all");
@@ -155,7 +155,7 @@ const Dashboard = () => {
                 isDeleting={deletingRideId === ride._id}
                 onDelete={() => handleDeleteRide(ride)}
                 onSelect={() => {
-                  if (isCustomer && isAuthenticated) setSelectedRide(ride);
+                  if (isCustomer) setSelectedRide(ride);
                 }}
               />
             ))}

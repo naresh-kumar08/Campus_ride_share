@@ -47,19 +47,16 @@ exports.register = asyncHandler(async (req, res) => {
     emailVerificationTokenExpires: Date.now() + 15 * 60 * 1000,
   });
 
-  try {
-    await sendEmail({
-      to: email,
-      ...verificationTemplate(name, verificationCode),
-    });
-  } catch (error) {
-    await User.findByIdAndDelete(user._id);
-    throw createError(500, "Failed to send OTP email. Please check server email credentials.");
-  }
+  const emailSent = await sendEmail({
+    to: email,
+    ...verificationTemplate(name, verificationCode),
+  });
 
   res.status(201).json({
     success: true,
-    message: "Registration successful. Please verify your email.",
+    message: emailSent
+      ? "Registration successful. Please verify your email."
+      : "Registration successful. Email sending failed — please contact admin to get your OTP.",
     data: sanitizeUser(user),
   });
 });
@@ -132,14 +129,16 @@ exports.forgotPassword = asyncHandler(async (req, res) => {
   user.resetPasswordTokenExpires = Date.now() + 15 * 60 * 1000;
   await user.save();
 
-  await sendEmail({
+  const emailSent = await sendEmail({
     to: email,
     ...forgotPasswordTemplate(user.name, resetCode),
   });
 
   res.json({
     success: true,
-    message: "Password reset code sent to email",
+    message: emailSent
+      ? "Password reset code sent to email"
+      : "Reset code generated but email sending failed. Please contact admin to get your reset code.",
   });
 });
 

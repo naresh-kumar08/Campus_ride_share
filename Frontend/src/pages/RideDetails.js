@@ -8,7 +8,7 @@ const RideDetails = () => {
 
   useEffect(() => {
     const load = async () => {
-      const { data } = await api.get(`/rides/${id}`);
+      const { data } = await api.get(`/api/rides/${id}`);
       setRide(data.data);
     };
     load();

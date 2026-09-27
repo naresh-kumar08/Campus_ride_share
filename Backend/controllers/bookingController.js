@@ -73,11 +73,11 @@ exports.confirmBooking = asyncHandler(async (req, res) => {
     });
   }
 
-  // res.json({
-  //   success: true,
-  //   message: "Ride booking request sent successfully. Waiting for rider confirmation.",
-  //   data: booking,
-  // });
+  res.json({
+    success: true,
+    message: "Ride booking request sent successfully. Waiting for rider confirmation.",
+    data: booking,
+  });
 });
 
 exports.getMyBookings = asyncHandler(async (req, res) => {

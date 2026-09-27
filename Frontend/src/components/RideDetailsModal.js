@@ -87,16 +87,7 @@ const RideDetailsModal = ({ ride, onClose, onConfirm, isBooking }) => {
   const riderPhone = ride.riderContact || riderProfile.phone || "NA";
 
   const handleBooking = () => {
-    // ⭐ Instant popup
-    alert("Your booking request is being sent...");
-
-    // ⭐ Close modal immediately after alert
-    onClose();
-
-    // ⭐ Smooth delay then run booking API
-    setTimeout(() => {
-      onConfirm(bookingMessage);
-    }, 700);
+    onConfirm(bookingMessage);
   };
 
   return (

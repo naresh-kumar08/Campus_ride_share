@@ -31,7 +31,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.get("/api/auth/profile");
 
-      setUser(response.data.user);
+      // Backend returns { success: true, data: sanitizeUser(user) }
+      setUser(response.data.data);
 
       return response.data;
     } catch (error) {
@@ -52,39 +53,15 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (formData) => {
     try {
-      console.log(
-        "Sending registration request:",
-        formData
-      );
+      console.log("Sending registration request:", formData);
 
-      const response = await api.post(
-        "/api/auth/register",
-        formData
-      );
+      const response = await api.post("/api/auth/register", formData);
 
-      console.log(
-        "Registration response:",
-        response.data
-      );
-
-      // IMPORTANT:
-      // Response return karna zaroori hai.
-      // Isse Register.jsx me await register(form)
-      // successful hone par setStep(2) chalega.
+      console.log("Registration response:", response.data);
 
       return response.data;
-
     } catch (error) {
-      console.error(
-        "Register API error:",
-        error.response?.data || error.message
-      );
-
-      // IMPORTANT:
-      // Error ko dobara throw karna zaroori hai.
-      // Warna Register.jsx ko pata nahi chalega
-      // ki registration fail hua hai.
-
+      console.error("Register API error:", error.response?.data || error.message);
       throw error;
     }
   };
@@ -93,39 +70,36 @@ export const AuthProvider = ({ children }) => {
   // LOGIN USER
   // ==========================================
 
-  const login = async (email, password) => {
+  // Accepts either a form object { email, password } OR (email, password) separately
+  const login = async (formOrEmail, password) => {
     try {
-      const response = await api.post(
-        "/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      let email, pwd;
+      if (typeof formOrEmail === "object" && formOrEmail !== null) {
+        email = formOrEmail.email;
+        pwd = formOrEmail.password;
+      } else {
+        email = formOrEmail;
+        pwd = password;
+      }
+
+      const response = await api.post("/api/auth/login", { email, password: pwd });
 
       const data = response.data;
 
-      // Token save
+      // Save token
       if (data.token) {
-        localStorage.setItem(
-          "crs_token",
-          data.token
-        );
+        localStorage.setItem("crs_token", data.token);
       }
 
-      // User data save in state
-      if (data.user) {
-        setUser(data.user);
+      // Backend returns { success, token, data: sanitizeUser(user) }
+      const userData = data.data || data.user;
+      if (userData) {
+        setUser(userData);
       }
 
-      return data;
-
+      return userData;
     } catch (error) {
-      console.error(
-        "Login API error:",
-        error.response?.data || error.message
-      );
-
+      console.error("Login API error:", error.response?.data || error.message);
       throw error;
     }
   };
@@ -136,7 +110,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("crs_token");
-
     setUser(null);
   };
 
@@ -146,11 +119,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const loadUser = async () => {
-      const token = localStorage.getItem(
-        "crs_token"
-      );
+      const token = localStorage.getItem("crs_token");
 
-      // Token nahi hai
       if (!token) {
         setLoading(false);
         return;
@@ -159,15 +129,14 @@ export const AuthProvider = ({ children }) => {
       try {
         await getProfile();
       } catch (error) {
-        console.log(
-          "User session expired or invalid"
-        );
+        console.log("User session expired or invalid");
       } finally {
         setLoading(false);
       }
     };
 
     loadUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ==========================================
@@ -177,6 +146,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     loading,
+    isAuthenticated: !!user,
 
     register,
     login,
@@ -184,7 +154,6 @@ export const AuthProvider = ({ children }) => {
 
     getProfile,
 
-    // Directly set user if needed
     setUser,
   };
 

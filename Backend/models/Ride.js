@@ -12,6 +12,7 @@ const rideSchema = new mongoose.Schema(
     seats: { type: Number, default: 1 },
     status: { type: String, enum: ["active", "booked", "completed"], default: "active" },
     riderContact: { type: String },
+    isConfirmed: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

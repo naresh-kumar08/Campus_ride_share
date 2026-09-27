@@ -1,102 +1,147 @@
-# Campus_ride_share
-I am a campus ride share webside
+# 🚌 Campus Ride Share
 
-<h2>Contact us ✉ </h2>
-Developed by: Naresh kumar <br>
-Work: Backend with MERN Stack Development, Database with MongoDB <br>
-Contact_Info: <a href="mailto:seervinaresh620@gmail.com">Email:seervinaresh620@gmail.com</a>
+A secure, student-only ride-sharing platform connecting verified students within the university community. Built with **React** (frontend) and **Node.js + Express + MongoDB** (backend).
 
-<h1><u>Campus Ride Share 🚗🎓</u></h1>
-<h2>Website_url:- https://campusrideshare-1.onrender.com/</h2>
-<p><i>Campus Ride Share is a secure, student-only web platform designed to make travel easy, affordable, and safe within the university community.</i></p>
+---
 
-<p>It connects <b>verified students</b> who need a ride with fellow students who have extra seats, helping everyone save money, reduce traffic, and travel together.</p>
+## ✨ Features
 
-<h2><u>📌 Project Features</u></h2>
+- 🔒 **Verified Users Only** — Only `@jecrcu.edu.in` emails allowed (configurable)
+- 💰 **Transparent Fares** — Auto-calculated at ₹5/km
+- ⭐ **Two-sided Rating** — Both rider and passenger rate each other after every trip
+- 📋 **Complaint System** — Report issues directly to admin
+- 🛡️ **Admin Dashboard** — Full control: manage users, rides, complaints
+- 📧 **OTP Email Verification** — Secure account creation via email OTP
+- 🔑 **JWT Authentication** — Secure, stateless login
 
-<h3><b>🔐 Safety & Trust</b></h3>
+---
 
-<p><b>Verified Users Only –</b> Registration allowed only with official university email IDs.</p>
-<p><b>Two-Sided Rating System –</b> Both rider and passenger can rate each other after trip completion.</p>
-<p><b>Complaint System –</b> Users can report issues directly to the admin panel.</p>
-<p><b>Transparent Fare Calculation –</b> Automatic fare calculation at a fixed rate per kilometer.</p>
-<p><b>Gender & Contact Visibility –</b> Helps users feel safe before booking rides.</p>
+## 🛠 Tech Stack
 
-<h3><b>👤 User Features</b></h3>
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, React Router v6, Axios |
+| Backend | Node.js, Express 5, Mongoose |
+| Database | MongoDB Atlas |
+| Auth | JWT (jsonwebtoken) |
+| Email | Nodemailer + Gmail SMTP |
+| Deployment | Render.com |
 
-<p><b>User Registration & Login</b></p>
-<p>Secure sign-up with email verification.</p>
-<p>Password reset and recovery options.</p>
+---
 
-<p><b>Search Rides</b></p>
-<p>Filter rides by From, To, Date, Time, Gender, and Maximum Price.</p>
+## 🚀 Deploy to Render (Step-by-Step)
 
-<p><b>Book Ride</b></p>
-<p>View ride details before booking.</p>
-<p>Send request to rider with optional message.</p>
-<p>Booking confirmation after rider approval.</p>
+### Step 1 — Push to GitHub
 
-<p><b>Ride Completion & Feedback</b></p>
-<p>Mark ride as completed.</p>
-<p>Give star rating and review.</p>
+```bash
+# In your project root
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/YOUR_USERNAME/campus-ride-share.git
+git push -u origin main
+```
 
-<h3><b>🧑‍✈️ Rider Features</b></h3>
+### Step 2 — Deploy Backend on Render
 
-<p><b>Post Ride</b></p>
-<p>Add source, destination, distance, date, time, and available seats.</p>
-<p>Fare automatically calculated.</p>
+1. Go to [render.com](https://render.com) → **New → Web Service**
+2. Connect your GitHub repo
+3. Set **Root Directory** → `Backend`
+4. Set **Build Command** → `npm install`
+5. Set **Start Command** → `npm start`
+6. Add these **Environment Variables**:
 
-<p><b>Manage Requests</b></p>
-<p>Accept or reject booking requests.</p>
-<p>Automatic rejection of other requests once one is confirmed.</p>
+| Key | Value |
+|---|---|
+| `DATABASE` | Your MongoDB Atlas URI |
+| `ACCESS_TOKEN_SECRET` | Any long random string |
+| `FRONTEND_URL` | Your frontend Render URL (set after step 3) |
+| `SENDER_EMAIL_ADDRESS` | Your Gmail address |
+| `EMAIL_PASSWORD` | Your [Gmail App Password](https://myaccount.google.com/apppasswords) |
 
-<p><b>View Ratings</b></p>
-<p>Build reputation through passenger feedback.</p>
+7. Click **Deploy**. Note the backend URL (e.g., `https://campus-ride-share-backend.onrender.com`)
 
-<h3><b>🛠 Admin Panel</b></h3>
+### Step 3 — Deploy Frontend on Render
 
-<p><b>User Management</b></p>
-<p>Activate, deactivate, or delete user accounts.</p>
+1. Go to **New → Static Site**
+2. Connect your GitHub repo
+3. Set **Root Directory** → `Frontend`
+4. Set **Build Command** → `npm install && npm run build`
+5. Set **Publish Directory** → `build`
+6. Add **Environment Variable**:
 
-<p><b>Trip Monitoring</b></p>
-<p>View all ride requests (Pending, Active, Completed).</p>
+| Key | Value |
+|---|---|
+| `REACT_APP_API_URL` | Your backend URL from Step 2 |
 
-<p><b>Complaint Handling</b></p>
-<p>Review and resolve user complaints.</p>
+7. Click **Deploy**
 
-<p><b>Dashboard Overview</b></p>
-<p>Total users, riders, passengers, and system activity.</p>
+### Step 4 — Connect Frontend ↔ Backend
 
-<h2><u>🎯 Benefits</u></h2>
+1. Go to your **Backend service** on Render
+2. Update `FRONTEND_URL` environment variable to your frontend URL
+3. Click **Manual Deploy**
 
-<p>Reduces travel costs for students.</p>
-<p>Promotes eco-friendly and shared transportation.</p>
-<p>Improves campus safety through verified users.</p>
-<p>Minimizes traffic congestion inside campus.</p>
-<p>Encourages community bonding among students.</p>
+---
 
-<h2><u>🧱 Development / Technologies Used</u></h2>
+## 🔧 Local Development
 
-<p><b>Frontend:</b> HTML, CSS, JavaScript, Bootstrap</p>
-<p><b>Backend:</b> Django (Python)</p>
-<p><b>Database:</b> SQLite / MySQL</p>
-<p><b>Authentication:</b> Email-based verification</p>
-<p><b>Version Control:</b> Git & GitHub</p>
+### Backend
+```bash
+cd Backend
+cp .env.example .env    # Fill in your values
+npm install
+npm run dev             # Runs on port 8000
+```
 
-<h2><u>🚀 Future Enhancements</u></h2>
+### Frontend
+```bash
+cd Frontend
+cp .env.example .env    # Set REACT_APP_API_URL=http://localhost:8000
+npm install
+npm start               # Runs on port 3000
+```
 
-<p>Real-time GPS tracking.</p>
-<p>In-app chat between rider and passenger.</p>
-<p>Mobile app version (Android / iOS).</p>
-<p>Online payment gateway integration.</p>
-<p>AI-based ride recommendations.</p>
+---
 
-<h2><u>📷 Modules Included</u></h2>
+## 📧 Gmail Setup (for OTP emails)
 
-<p>User Authentication (Login / Register)</p>
-<p>Ride Search & Filter</p>
-<p>Rider Console (Post Ride)</p>
-<p>Booking & Confirmation</p>
-<p>Rating & Review System</p>
-<p>Complaint System</p>
-<p>Admin Dashboard</p>
+1. Enable 2-Step Verification on your Google account
+2. Go to: [Google App Passwords](https://myaccount.google.com/apppasswords)
+3. Create a new App Password for **Mail**
+4. Use that 16-character password as `EMAIL_PASSWORD` (NOT your Gmail login password)
+
+> **Note:** Emails are optional — the app works without them. If email isn't configured, registration still works and the admin can verify accounts manually.
+
+---
+
+## 🗂 Project Structure
+
+```
+Campus_ride_share/
+├── Backend/
+│   ├── controllers/     # Route handlers
+│   ├── middleware/      # Auth, error handling
+│   ├── models/          # Mongoose schemas
+│   ├── routes/          # Express routers
+│   ├── utils/           # Email, token, fare utilities
+│   ├── server.js        # Entry point
+│   └── .env.example     # Environment variables template
+├── Frontend/
+│   ├── src/
+│   │   ├── components/  # Reusable UI components
+│   │   ├── context/     # React Context (auth state)
+│   │   ├── hooks/       # Custom hooks
+│   │   ├── pages/       # Page-level components
+│   │   └── api.js       # Axios instance with auth headers
+│   └── .env.example     # Environment variables template
+└── render.yaml          # Render.com blueprint
+```
+
+---
+
+## 🆘 Emergency Contacts
+
+- Police Emergency: **100**
+- Women Safety Helpline: **1091**
+- Campus Helpline: **+91-800-000-0000**

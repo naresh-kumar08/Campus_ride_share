@@ -54,15 +54,10 @@ ${message}
 Complaint ID: ${complaint._id}`;
 
     const recipients = [SUPPORT_EMAIL, ride.riderId?.email].filter(Boolean);
+    // Fire-and-forget — complaint is saved regardless of email success
     if (recipients.length) {
-      await Promise.all(
-        recipients.map((to) =>
-          sendEmail({
-            to,
-            subject,
-            text,
-          })
-        )
+      Promise.all(recipients.map((to) => sendEmail({ to, subject, text }))).catch(
+        (err) => console.error("Complaint email notification failed:", err.message)
       );
     }
   }

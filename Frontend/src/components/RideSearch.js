@@ -5,6 +5,7 @@ const defaultFilters = {
   to: "",
   gender: "",
   date: "",
+  time: "",
   maxPrice: "",
   minRating: "",
 };
